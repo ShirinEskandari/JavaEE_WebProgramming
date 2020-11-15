@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!-- Author: Grant -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/template/mainLayout.xhtml">
+        <ui:param name="pageTitle" value="#{msgs.checkoutTitle}"/>
+        <ui:define name="main_content">
+            <div class="ui segment">
+                <div class="ui two column divided stackable grid">
+                    <div class="column">
+                        <h4 class="ui dividing blue header">#{msgs.orderSummary}</h4>
+                        <div class="ui vertically divided stackable grid">
+                            <ui:repeat value="#{cartBackingBean.listBooksInCart}" var="booksInCart">
+                                <div class="one column row">
+                                    <div class="column">
+                                        <div class="item">
+                                            <div class="image">
+                                                <h:graphicImage styleClass="ui tiny image" value="/ga4w20/javax.faces.resource/#{booksInCart.imagePath}.xhtml?ln=images"/>
+                                            </div>
+                                            <div class="content">
+                                                <a class="header">#{booksInCart.title}</a>
+                                                <div class="meta">
+                                                    <span class="author">#{authorJpaController.getAuthorName(bookJpaController.getAuthorIDFromBook(booksInCart.isbn))}</span>
+                                                </div>
+                                                <div class="meta">
+                                                    <span class="pubDate">#{booksInCart.pubDate}</span>
+                                                </div>
+                                                <div class="extra">
+                                                    <h:form>
+                                                        <h:commandButton styleClass="ui blue label" value="#{msgs.viewBook}" action="book?faces-redirect=true">
+                                                            <f:actionListener binding="#{viewBookBackingBean.setSelectedBook(booksInCart)}"/>
+                                                        </h:commandButton>
+                                                        <h:commandButton styleClass="ui red label" value="#{msgs.removeBook}" action="checkout?faces-redirect=true">
+                                                            <f:ajax render="@none" event="click" onevent="removeBookFromCart(#{booksInCart.bookID})"/>
+                                                            <f:actionListener binding="#{cartBackingBean.removeBook(booksInCart)}"/>
+                                                        </h:commandButton>
+                                                        <p class="floatRight priceList">$#{bookJpaController.priceFormat(booksInCart.listPrice)}</p>
+                                                    </h:form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                            <ui:fragment rendered="#{loginBackingBean.signedIn}">
+                                <div class="one column row">
+                                    <div class="column">
+                                        <div class="item">
+                                            <div class="content">
+                                                <h4 class="header">#{msgs.subtotal}<span class="floatRight priceList">$#{cartBackingBean.subtotal}</span></h4>
+                                                <div class="meta">
+                                                    <h:outputText styleClass="tax1" id="GST" value="GST (#{taxBackingBean.GST}%)"/>
+                                                    <h:outputText class="floatRight taxList" id="GSTVal" value="$#{cartBackingBean.GSTVal}"/>
+                                                </div>
+                                                <div class="meta">
+                                                    <h:outputText styleClass="tax1" id="PST" value="PST (#{taxBackingBean.PST}%)"/>
+                                                    <h:outputText class="floatRight taxList" id="PSTVal" value="$#{cartBackingBean.PSTVal}"/>
+
+                                                </div>
+                                                <div class="meta">
+                                                    <h:outputText styleClass="tax1" id="HST" value="HST (#{taxBackingBean.HST}%)"/>
+                                                    <h:outputText class="floatRight taxList" id="HSTVal" value="$#{cartBackingBean.HSTVal}"/>
+                                                </div>
+                                                <h4 class="header">#{msgs.total}<h:outputText id="total" class="floatRight priceList" value="$#{cartBackingBean.total}"/></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:fragment>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <ui:fragment rendered="#{!loginBackingBean.signedIn}">
+                            <div class="ui center aligned header">
+                                #{msgs.mustLogin}
+                            </div>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{loginBackingBean.signedIn}">
+                            <h4 class="ui dividing blue header">#{msgs.billing}</h4>
+                            <h:form styleClass="ui form" onsubmit="deleteAllCookies();">
+                                <div class="fields">
+                                    <div class="eight wide required field">
+                                        <h:message for="fNameOnCard" styleClass="errorMsg"/>
+                                        <h:outputLabel>#{msgs.fname} #{msgs.onCard}</h:outputLabel>
+                                        <h:inputText id="fNameOnCard" validator="#{payment.validateName}" value="#{payment.firstNameOnCard}" pt:placeholder="#{loginBackingBean.account.FName}"/> 
+
+                                    </div>
+                                    <div class="eight wide required field">
+                                        <h:message for="lNameOnCard" styleClass="errorMsg"/>
+                                        <h:outputLabel>#{msgs.lname} #{msgs.onCard}</h:outputLabel>
+                                        <h:inputText id="lNameOnCard" validator="#{payment.validateName}" value="#{payment.lastNameOnCard}" pt:placeholder="#{loginBackingBean.account.LName}"/> 
+
+                                    </div>
+                                </div>
+                                <div class="required field">
+                                    <h:message for="billAddress" styleClass="errorMsg"/>
+                                    <h:outputLabel>#{msgs.billAdd}</h:outputLabel>
+                                    <h:inputText id="billAddress" validator="#{payment.validateName}" value="#{payment.billAddress}" pt:placeholder="#{loginBackingBean.account.address}"/> 
+
+                                </div>
+                                <div class="required field">
+                                    <h:message for="cardType" styleClass="errorMsg"/>
+                                    <h:outputLabel>#{msgs.card}</h:outputLabel>
+                                    <h:selectOneMenu id="cardType" validator="#{payment.validateCardType}" value="#{payment.cardType}" styleClass="ui fluid dropdown">
+                                        <f:selectItem itemValue="Visa" itemLabel="Visa"/>
+                                        <f:selectItem itemValue="Mastercard" itemLabel="Mastercard"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="fields">
+                                    <div class="six wide required field">
+                                        <h:message for="cardNumber" styleClass="errorMsg"/>
+                                        <h:outputLabel>#{msgs.cardnum}</h:outputLabel>
+                                        <h:inputText id="cardNumber" validator="#{payment.validateCardNum}" maxlength="16" value="#{payment.cardNumber}" pt:placeholder="Card Number"/> 
+                                    </div>
+                                    <div class="five wide required field">
+                                        <h:message for="cardCVC" styleClass="errorMsg"/>
+                                        <h:outputLabel>CVC</h:outputLabel>
+                                        <h:inputText id="cardCVC" validator="#{payment.validateCardCVC}" maxlength="3" value="#{payment.cardCVC}" pt:placeholder="CVC"/> 
+                                    </div>
+                                    <div class="five wide required field">
+                                        <h:message for="cardExp" styleClass="errorMsg"/>
+                                        <h:outputLabel>#{msgs.exp}</h:outputLabel>
+                                        <h:inputText id="cardExp" label="#{msgs.exp}"
+                                                     value="#{payment.cardExp}" pt:placeholder="MM/YYYY">
+                                            <f:convertDateTime pattern="MM/yyyy" />
+                                        </h:inputText>
+                                    </div>
+                                </div>
+                                <h:commandButton styleClass="ui blue button" type="submit" value="#{msgs.buyBook}" action="client?faces-redirect=true">
+                                    <f:actionListener binding="#{saleJpaController.buyBooks(cartBackingBean.listBooksInCart, taxBackingBean.GST, taxBackingBean.HST, taxBackingBean.PST, loginBackingBean.account)}"/>
+                                    <f:actionListener binding="#{cartBackingBean.init()}"/>
+                                </h:commandButton>
+                            </h:form>  
+                        </ui:fragment>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

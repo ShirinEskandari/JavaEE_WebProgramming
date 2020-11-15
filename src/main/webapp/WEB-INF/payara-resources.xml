@@ -1,0 +1,18 @@
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<!-- Search for the word UPDATE to find where changes are required -->
+<resources>
+    <jdbc-resource enabled="true" jndi-name="java:app/jdbc/bookstore" object-type="user" pool-name="bookstorePool">
+        <description/>
+    </jdbc-resource>
+    <jdbc-connection-pool datasource-classname="com.mysql.cj.jdbc.MysqlDataSource" 
+                          max-pool-size="15"
+                          name="bookstorePool"
+                          pool-resize-quantity="2"
+                          res-type="javax.sql.ConnectionPoolDataSource"
+                          steady-pool-size="8">
+        <property name="URL" value="jdbc:mysql://localhost:3306/ga4w20?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"/>
+        <property name="User" value="ga4w20"/>
+        <property name="Password" value="pickle7slab"/>
+    </jdbc-connection-pool>
+</resources>
+

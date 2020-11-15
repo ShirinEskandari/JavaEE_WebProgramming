@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!-- Author: Shirin -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>#{pageTitle}</title>
+            <f:view locale="#{language.locale}"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <h:outputStylesheet library="css" name="styles.css"/>
+            <h:outputScript library="javascript" name="cookies.js"/>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/> 
+        </h:head>
+        <h:body>
+            <ui:include src="/template/mainHeader.xhtml"/>
+            <ui:insert name="main_content"></ui:insert>
+        </h:body>
+    </f:view>
+</html>
+

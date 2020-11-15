@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--Author: Grant, Reviews by Finley -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/template/mainLayout.xhtml">
+        <ui:param name="pageTitle" value="#{msgs.title}"/>
+        <ui:define name="main_content">                                            
+            <div class="ui segment">
+                <div class="ui grid">
+                    <div class="five wide column">
+                        <h:graphicImage styleClass="ui centered large image" library="images" name="#{viewBookBackingBean.selectedBook.imagePath}"/>
+                    </div>
+                    <div class="eleven wide column">
+                        <div class="ui segment">
+                            <div class="description">
+                                <ui:fragment rendered="#{viewBookBackingBean.onSale}">
+                                    <h:outputText styleClass="ui red tag label" value="#{msgs.onSale} $#{bookJpaController.priceFormat(viewBookBackingBean.selectedBook.salePrice)}"/>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{!viewBookBackingBean.onSale}">
+                                    <h:outputText styleClass="ui red tag label" value="$#{bookJpaController.priceFormat(viewBookBackingBean.selectedBook.listPrice)}"/>
+                                </ui:fragment>
+                                <div class="ui list">
+                                    <h:outputText styleClass="item" value="Author - #{authorJpaController.getAuthorName(bookJpaController.getAuthorIDFromBook(viewBookBackingBean.selectedBook.isbn))}"/>
+                                    <h:outputText styleClass="item" value="ISBN - #{viewBookBackingBean.selectedBook.isbn}"/>
+                                    <h:outputText styleClass="item" value="Publisher - #{viewBookBackingBean.selectedBook.publisherID.name}"/>
+                                    <h:outputText styleClass="item" value="Published - #{viewBookBackingBean.selectedBook.pubDate}"/>
+                                    <h:outputText styleClass="item" value="Pages - #{viewBookBackingBean.selectedBook.pages}"/>
+                                </div>
+                                <h:outputText value="#{viewBookBackingBean.selectedBook.synopsis}"/>
+                                <div class="ui segment">
+                                    <div class="ui three stackable cards">
+                                        <ui:repeat value="#{reviewBacking.findListByBook(viewBookBackingBean.selectedBook.isbn)}" var="review">
+                                            <div class="ui card">
+                                                <div class="content">
+                                                    <div class="header">#{review.accountID.FName} #{review.accountID.LName}</div>
+                                                    <div>
+                                                        <p>Rating: #{review.rating}/5</p>
+                                                    </div>
+                                                    #{review.reviewText}
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+                                    </div>
+                                    <div class="ui header">Write A Review</div>
+                                    <h:form class="ui reply form">
+                                        <div class="field">
+                                            <h:inputText id="review#{viewBookBackingBean.selectedBook.bookID}" value="#{reviewBacking.text}" required="true" style="margin-top: 0px; margin-bottom: 0px; height: 112px;"></h:inputText>
+                                        </div>
+                                        <div class="field">
+                                            <div>
+                                                Rating
+                                                <h:selectOneRadio id="rating" value="#{reviewBacking.rating}" required="true">
+                                                    <f:selectItem itemValue="1" itemLabel="1" />
+                                                    <f:selectItem itemValue="2" itemLabel="2" />
+                                                    <f:selectItem itemValue="3" itemLabel="3" />
+                                                    <f:selectItem itemValue="4" itemLabel="4" />
+                                                    <f:selectItem itemValue="5" itemLabel="5" />
+                                                </h:selectOneRadio>
+                                            </div>
+                                        </div>
+                                        <div class="actions">
+                                            <h:commandButton styleClass="ui black deny button" value="Write a review" action="#{reviewBacking.createReview}">
+                                                <f:actionListener binding="#{reviewBacking.setIsbn(viewBookBackingBean.selectedBook.isbn)}"/>
+                                                <f:ajax render="@none" event="click" onevent="addedReview(#{viewBookBackingBean.selectedBook.bookID})"/>
+                                            </h:commandButton>
+                                            <h:commandButton styleClass="ui positive right labeled icon button" value="#{msgs.addToCart}">
+                                                <f:ajax render="@none" event="click" onevent="setCookie(#{viewBookBackingBean.selectedBook.bookID})"/>
+                                            </h:commandButton>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="eight wide column">
+                        <div class="ui segment">
+                            <div class="ui header">#{msgs.sameGenre}</div>
+                            <div class="ui three cards">
+                                <ui:repeat value="#{bookBackingBean.getThreeBooksByGenre(viewBookBackingBean.selectedBook.genre, viewBookBackingBean.selectedBook.bookID)}" var="sameGenre">
+                                    <div class="card">
+                                        <div class="image">
+                                            <h:graphicImage styleClass="ui tiny image" library="images" name="#{sameGenre.imagePath}"/>
+                                        </div>
+                                        <h:form>
+                                            <h:commandButton styleClass="ui blue basic fluid button" value="#{msgs.view}" action="book?faces-redirect=true">
+                                                <f:actionListener binding="#{viewBookBackingBean.setSelectedBook(sameGenre)}"/>
+                                                <f:ajax render="@none" event="click" onevent="lastClickedGenre('#{sameGenre.genre}')"/>
+                                            </h:commandButton>
+                                        </h:form>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="eight wide column">
+                        <div class="ui segment">
+                            <div class="ui header">#{msgs.sameAuthor}</div>
+                            <div class="ui three cards">
+                                <ui:repeat value="#{bookBackingBean.getBooksByAuthor(viewBookBackingBean.selectedBook.isbn, viewBookBackingBean.selectedBook.bookID)}" var="sameAuthor">
+                                    <div class="card">
+                                        <div class="image">
+                                            <h:graphicImage styleClass="ui mini image" library="images" name="#{sameAuthor.imagePath}"/>
+                                        </div>
+                                        <h:form>
+                                            <h:commandButton styleClass="ui blue basic fluid button" value="#{msgs.view}" action="book?faces-redirect=true">
+                                                <f:actionListener binding="#{viewBookBackingBean.setSelectedBook(sameAuthor)}"/>
+                                                <f:ajax render="@none" event="click" onevent="lastClickedGenre('#{sameAuthor.genre}')"/>
+                                            </h:commandButton>
+                                        </h:form>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

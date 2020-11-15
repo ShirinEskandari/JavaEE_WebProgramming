@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+    <!-- Define Persistence Unit -->
+    <persistence-unit name="my_persistence_unit" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>java:app/jdbc/bookstore</jta-data-source>
+        <class>com.ga4w20.bookazon.entities.Author</class>
+        <class>com.ga4w20.bookazon.entities.Book</class>
+        <class>com.ga4w20.bookazon.entities.Survey</class>
+        <class>com.ga4w20.bookazon.entities.Booksale</class>
+        <class>com.ga4w20.bookazon.entities.Rss</class>
+        <class>com.ga4w20.bookazon.entities.Review</class>
+        <class>com.ga4w20.bookazon.entities.Account</class>
+        <class>com.ga4w20.bookazon.entities.Publisher</class>
+        <class>com.ga4w20.bookazon.entities.Ads</class>
+        <class>com.ga4w20.bookazon.entities.Tax</class>
+        <class>com.ga4w20.bookazon.entities.Bookauthor</class>
+        <class>com.ga4w20.bookazon.entities.Sale</class>
+        <class>com.ga4w20.bookazon.entities.Answer</class>
+    </persistence-unit>
+</persistence>

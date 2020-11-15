@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      >
+    <ui:composition template="/template/layout.xhtml">
+        <ui:define name="main_content">  
+            <div class="ui raised segment">
+                <h:link styleClass="ui white button" type="button" value="Return To Manager" outcome="manager?faces-redirect=true"/>
+            </div>
+            <div class="ui raised segment">
+                <h:link styleClass="ui white button" type="button" value="#{msgs.returnToManager}" outcome="manager?faces-redirect=true"/>
+
+                <h4 class="ui dividing blue header">#{msgs.order}</h4>
+                <h:outputText styleClass="item" value ="#{managerOrderBackingBean.mobb.accountID}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{managerOrderBackingBean.mobb.bookSaleID}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{managerOrderBackingBean.mobb.isbn}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{managerOrderBackingBean.mobb.title}"/>
+                 <br/>
+                <h:outputText styleClass="item" value ="#{managerOrderBackingBean.mobb.saleID}"/>
+            </div>
+            
+            <div class="ui raised segment">
+                <h:form styleClass="ui form">
+                    <h:commandButton styleClass="ui green button" type="button" value="#{msgs.deleteOrder}" action="manager?faces-redirect=true">
+                        <f:ajax execute="@form" 
+                                event="click" 
+                                listener="#{managerOrderBackingBean.deleteBookFromOrder()}"
+                                />
+                    </h:commandButton>
+                    
+                    <h:commandButton styleClass="ui green button" type="button" value="#{msgs.deleteFullOrder}" action="manager?faces-redirect=true">
+                        <f:ajax execute="@form" 
+                                event="click" 
+                                listener="#{managerOrderBackingBean.deleteOrder()}"
+                                />
+                    </h:commandButton>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

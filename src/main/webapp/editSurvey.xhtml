@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      >
+    <ui:composition template="/template/layout.xhtml">
+        <ui:define name="main_content">  
+            <div class="ui raised segment">
+                <h:link styleClass="ui white button" type="button" value="Return To Manager" outcome="manager?faces-redirect=true"/>
+                
+                <h4 class="ui dividing blue header">Current Survey Information</h4>
+                <h:outputText styleClass="item" value =" Survey ID : #{managerSurveyBackingBean.newSurvey.serveyID}"/>
+                <br/>
+                <h:outputText styleClass="item" value =" Survey Question : #{managerSurveyBackingBean.newSurvey.question}"/>
+            </div>
+
+            <div class="ui raised segment">
+                <h4 class="ui dividing green header">#{msgs.editSurveyNote}</h4>
+
+                <h:form styleClass="ui form">
+                    <div class="field">
+                        <h:outputLabel>#{msgs.surveyid}</h:outputLabel>
+                        <h:outputLabel value="#{managerSurveyBackingBean.newSurvey.serveyID}"/>
+                    </div>
+                    
+                    <div class="field">
+                        <h:outputLabel>#{msgs.question}</h:outputLabel>
+                        <h:inputText id="question" pt:placeholder="#{managerSurveyBackingBean.newSurvey.question}" value="#{managerSurveyBackingBean.question}"/>
+                    </div>
+                    <h:commandButton styleClass="ui green button" type="button" value="Edit Survey" action="manager?faces-redirect=true">
+                        <f:ajax execute="@form" 
+                                event="click" 
+                                listener="#{managerSurveyBackingBean.updateQuestion()}"
+                                />
+                    </h:commandButton>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

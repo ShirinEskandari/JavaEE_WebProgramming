@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!-- Author: Shirin -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition>
+        <div class="ui segment">
+        <f:metadata>
+            <f:event type="preRenderView"
+                     listener="#{preRenderViewBean.checkCookies()}" />
+        </f:metadata>
+        <div class="ui top attached massive stackable menu">
+            <ui:include src="/template/bookazonMenu.xhtml"/>
+            <div class="right menu">
+                <ui:include src="/template/userMenu.xhtml"/>
+            </div>
+        </div>
+            </div>
+    </ui:composition>
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!--Author: Shirin & Grant-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template/layout.xhtml">
+        <ui:param name="pageTitle" value="#{msgs.loginTitle}"/>
+        <ui:define name="main_content">
+            <div class="ui segment">
+                <div class="ui doubling centered card">
+                    <div class="image">
+                        <h:graphicImage styleClass="ui medium circular centered image" library="images" name="avatar.jpg" />
+                    </div>
+                    <h:form styleClass="ui form">
+                        <div class="field">
+                            <h:outputLabel styleClass="center aligned header" for="email">Username</h:outputLabel>
+                            <h:inputText id="email" styleClass="center aligned" value="#{loginBackingBean.account.email}" pt:placeholder="#{msgs.email}">
+                                <f:ajax event="blur" execute="@this" render="validation-messages"/>   
+                            </h:inputText>
+                            <h:messages id="validation-messages" style="color:red"/>
+                        </div>
+                        <div class="field">
+                            <h:outputLabel styleClass="center aligned header" for="hashedPassword">Password</h:outputLabel>
+                            <h:inputSecret styleClass="center aligned" id="hashedPassword" value="#{loginBackingBean.account.hashedPassword}" pt:placeholder="#{msgs.password}">
+                                <f:ajax event="blur"  render="validation-messages"/>
+                            </h:inputSecret>
+                        </div>
+                        <h:commandButton styleClass="ui blue fluid button" id="save" value="Login" action="#{loginBackingBean.submit()}">
+                            <f:actionListener binding="#{taxBackingBean.setTaxes(loginBackingBean.accountTwo.province)}"/>
+                        </h:commandButton>
+                    </h:form>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

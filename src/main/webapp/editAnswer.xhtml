@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      >
+    <ui:composition template="/template/layout.xhtml">
+        <ui:define name="main_content">  
+            <div class="ui raised segment">
+                <h:link styleClass="ui white button" type="button" value="Return To Manager" outcome="manager?faces-redirect=true"/>
+                
+                <h4 class="ui dividing blue header">Current Answer Information</h4>
+                <h:outputText styleClass="item" value =" #{msgs.answerid} : #{managerAnswerBackingBean.answerObj.answerID}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.surveyid} : #{managerAnswerBackingBean.answerObj.serveyID.question}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.answer} :#{managerAnswerBackingBean.answerObj.answer}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.Vote} #{managerAnswerBackingBean.answerObj.vote}"/>
+
+            </div>
+
+            <div class="ui raised segment">
+                <h4 class="ui dividing green header">#{msgs.editAnswerNote}</h4>
+
+                <h:form styleClass="ui form">
+                    <div class="field">
+                        <h:outputLabel>#{msgs.answerid}</h:outputLabel>
+                        <h:outputLabel value="#{managerAnswerBackingBean.answerObj.answerID}"/>
+                    </div>
+                     <div class="field">
+                        <h:outputLabel>#{msgs.surveyid}</h:outputLabel>
+                        <h:outputLabel value="#{managerAnswerBackingBean.answerObj.serveyID.question}"/>
+                    </div>
+                    
+                    <div class="field">
+                        <h:outputLabel>#{msgs.answer}</h:outputLabel>
+                         <h:inputText id="fname" pt:placeholder="#{managerAnswerBackingBean.answerObj.answer}" value="#{managerAnswerBackingBean.answer}"/>
+                    </div>
+                    
+                    <div class="field">
+                        <h:outputLabel> #{msgs.Vote} </h:outputLabel>
+                        <h:inputText id="lname" pt:placeholder="#{managerAnswerBackingBean.answerObj.vote}" value="#{managerAnswerBackingBean.vote}"/> 
+                    </div>
+
+                    <h:commandButton styleClass="ui green button" type="button" value="Edit Answer" action="manager?faces-redirect=true">
+                        <f:ajax execute="@form" 
+                                event="click" 
+                                listener="#{managerAnswerBackingBean.updateanswer()}"
+                                />
+                    </h:commandButton>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

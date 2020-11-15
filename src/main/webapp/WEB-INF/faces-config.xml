@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- This file contains items that cannot be identified with an annotation -->
+<!-- Use NetBeans auto-complete feature to see all the possible options -->
+<!--navigation and messages rules-->
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+    <application>
+        <locale-config>
+            <default-locale>en_CA</default-locale>
+            <supported-locale>en_US</supported-locale>
+            <supported-locale>fr</supported-locale>
+        </locale-config>
+        <!-- Referencing bundles is on important item in this file -->
+        <resource-bundle>
+            <base-name>com.ga4w20.bookazon.bundles.messages</base-name>
+            <var>msgs</var>
+        </resource-bundle>
+    </application>
+</faces-config>

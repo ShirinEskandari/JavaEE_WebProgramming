@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+@author Alex Bellerive
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/template/layout.xhtml">
+        <ui:param name="pageTitle" value="#{msgs.edituser}"/>
+        <ui:define name="main_content">  
+            <div class="ui raised segment">
+                <h:link styleClass="ui white button" type="button" value="#{msgs.returnToManager}" outcome="manager?faces-redirect=true"/>
+                
+                <h4 class="ui dividing blue header">Current User Information</h4>
+                <h:outputText styleClass="item" value ="#{msgs.email} : #{editUserBackingBean.account.email}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.name} : #{editUserBackingBean.account.FName} #{editUserBackingBean.account.LName}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.address} : #{editUserBackingBean.account.address} #{editUserBackingBean.account.street} ,#{editUserBackingBean.account.city}, #{editUserBackingBean.account.province} #{editUserBackingBean.account.postalCode} "/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.compName} :#{editUserBackingBean.account.companyName}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.tellephone} : #{editUserBackingBean.account.telephone}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.cellphone} : #{editUserBackingBean.account.cellphone}"/>
+                <br/>
+                <h:outputLabel>#{msgs.managerStatus} : #{editUserBackingBean.isManager()} </h:outputLabel>
+
+            </div>
+
+            <div class="ui raised segment">
+                <h4 class="ui dividing green header"> #{msgs.editUserPrompt}</h4>
+
+                <h:form styleClass="ui form">
+                    <div class="field">
+                        <h:outputLabel>#{msgs.email}</h:outputLabel>
+                        <h:inputText pt:placeholder="#{editUserBackingBean.account.email}" value="#{editUserBackingBean.email}"/>
+                    </div>
+
+                    <h:outputLabel>#{msgs.name}</h:outputLabel>
+                    <div class="two fields">
+                        <div class="field">
+                            <h:inputText id="fname" pt:placeholder="#{editUserBackingBean.account.FName}" value="#{editUserBackingBean.fname}"/> 
+                        </div>
+                        <div class="field">
+                            <h:inputText id="lname" pt:placeholder="#{editUserBackingBean.account.LName}" value="#{editUserBackingBean.lname}"/> 
+                        </div>
+                    </div>
+
+                    <div class="two fields">
+                        <div class="field">
+                            <h:outputLabel>#{msgs.address}</h:outputLabel>
+                            <h:inputText pt:placeholder="#{editUserBackingBean.account.address}" value="#{editUserBackingBean.address}"/>
+                        </div>
+
+                        <div class="field">
+                            <h:outputLabel>#{msgs.street}</h:outputLabel>
+                            <h:inputText pt:placeholder="#{editUserBackingBean.account.street}" value="#{editUserBackingBean.street}"/>
+                        </div>
+                    </div>
+
+                    <div class="three fields"> 
+                        <div class="field required field">
+                            <h:outputLabel>#{msgs.prov}</h:outputLabel>
+                            <!-- ************** VALUE TO CHANGE ************** -->
+                            <h:selectOneMenu id="province" styleClass="ui fluid dropdown" value="#{editUserBackingBean.province}">
+                                <f:selectItem itemValue= "default" itemLabel="Choose A Province" />
+                                <f:selectItem itemValue="AB" itemLabel="Alberta" />
+                                <f:selectItem itemValue="BC" itemLabel="British Columbia" />
+                                <f:selectItem itemValue="MB" itemLabel="Manitoba" />
+                                <f:selectItem itemValue="NB" itemLabel="New Brunswick" />
+                                <f:selectItem itemValue="NL" itemLabel="Newfoundland and Labrador" />
+                                <f:selectItem itemValue="NS" itemLabel="Nova Scotia" />
+                                <f:selectItem itemValue="NT" itemLabel="Northwest Territories" />
+                                <f:selectItem itemValue="NU" itemLabel="Nunavut" />
+                                <f:selectItem itemValue="ON" itemLabel="Ontario" />
+                                <f:selectItem itemValue="PE" itemLabel="Prince Edward Island" />
+                                <f:selectItem itemValue="QC" itemLabel="Quebec" />
+                                <f:selectItem itemValue="SK" itemLabel="Saskatchewan" />
+                                <f:selectItem itemValue="YT" itemLabel="Yukon Territory" />
+                            </h:selectOneMenu> 
+                        </div>
+                        <div class="field">
+                            <h:outputLabel>#{msgs.postal}</h:outputLabel>
+                            <h:inputText pt:placeholder="#{editUserBackingBean.account.postalCode}" value="#{editUserBackingBean.postalCode}"/>
+                        </div>
+                        <div class="field">
+                            <h:outputLabel>#{msgs.city}</h:outputLabel>
+                            <h:inputText pt:placeholder="#{editUserBackingBean.account.city}" value="#{editUserBackingBean.city}"/>
+                        </div>
+                    </div>
+
+                    <div class="two fields">
+                        <div class="field">
+                            <h:outputLabel>#{msgs.tellephone}</h:outputLabel>
+                            <h:inputText pt:placeholder="#{editUserBackingBean.account.telephone}" value="#{editUserBackingBean.telephone}"/>
+                        </div>
+                        <div class="field">
+                            <h:outputLabel>#{msgs.cellphone}</h:outputLabel>
+                            <h:inputText pt:placeholder="#{editUserBackingBean.account.cellphone}" value="#{editUserBackingBean.cellphone}"/>
+                        </div>
+                    </div>
+                    <div class="two fields">
+                        <div class = "field">
+                            <h:outputLabel>#{msgs.compName}</h:outputLabel>
+                            <h:inputText pt:placeholder="#{editUserBackingBean.account.companyName}" value="#{editUserBackingBean.companyName}"/>
+                        </div>
+
+                        <div class = "field">
+                            <h:outputLabel>#{msgs.managerStatus} : #{editUserBackingBean.isManager()} </h:outputLabel>
+                            <h:selectOneMenu id="status" styleClass="ui fluid dropdown" value="#{editUserBackingBean.managerStatus}">
+                                <f:selectItem itemValue="default" itemLabel="#{msgs.selectStatus}" />
+                                <f:selectItem itemValue="0" itemLabel="#{msgs.no}" />
+                                <f:selectItem itemValue="1" itemLabel="#{msgs.yes}" />
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <!-- action="manager?faces-redirect=true"  -->
+                    <h:commandButton styleClass="ui green button" type="button" value="#{msgs.editUser}" action="edituser?faces-redirect=true">
+                        <f:ajax execute="@form" 
+                                event="click" 
+                                listener="#{editUserBackingBean.editAccount()}"
+                                />
+                    </h:commandButton>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

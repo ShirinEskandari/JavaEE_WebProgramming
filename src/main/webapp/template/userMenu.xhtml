@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!-- Author: Shirin & Grant -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <div class="ui simple dropdown icon item" id ="dropdown">
+        <i class="user icon"/>
+        <ui:fragment rendered="#{loginBackingBean.signedIn}">
+            <div class="sub header">#{loginBackingBean.account.FName}</div>
+        </ui:fragment>
+        <ui:fragment rendered="#{!loginBackingBean.signedIn}">
+            <div class="sub header">#{msgs.user}</div>
+        </ui:fragment>
+        <div class="menu" >
+            <ui:fragment rendered="#{!loginBackingBean.signedIn}">
+                <div class="item" >
+                    <h:link styleClass="ui blue basic fluid button" value="#{msgs.login}" outcome="login" />
+                </div>
+                <div class="item">
+                    <h:link styleClass="ui blue basic fluid button" value="#{msgs.register}" outcome = "registration" />
+                </div>
+            </ui:fragment>
+            <ui:fragment rendered="#{loginBackingBean.signedIn}">
+                <ui:fragment rendered="#{loginBackingBean.manager}">
+                    <div class="item">
+                        <h:form>
+                            <h:link styleClass="ui blue basic fluid button"  value="#{msgs.manager}" outcome="manager"/>
+                        </h:form>
+                    </div>
+                </ui:fragment>
+                <div class="item">
+                    <h:form>
+                        <h:link styleClass="ui blue basic fluid button" value="#{msgs.myBooks}" outcome="client" />
+                    </h:form>
+                </div>
+                <div class="item">
+                    <h:form>
+                        <h:link value="#{msgs.myInvoices}" styleClass="ui blue basic fluid button" outcome="invoices" />
+                    </h:form>
+                </div>
+                <div class="item">
+                    <h:form>
+                        <h:commandLink styleClass="ui blue basic fluid button" action="#{loginBackingBean.signOut()}" value="#{msgs.logout}"/>
+                    </h:form>
+                </div>
+            </ui:fragment>
+        </div>
+    </div>
+</html>

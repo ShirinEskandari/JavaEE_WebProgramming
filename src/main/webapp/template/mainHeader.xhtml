@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!-- Author: Grant & Shirin -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition>
+            <f:metadata>
+                <f:event type="preRenderView"
+                         listener="#{preRenderViewBean.checkCookies()}" />
+            </f:metadata>
+            <div class="ui top attached labeled icon massive stackable fluid menu" id="seleniumtest" >
+                <ui:include src="/template/bookazonMenu.xhtml"/>
+                <div class="right menu" id="rightselenium">
+                    <div class="ui right aligned category search item" id="sel">
+                        <h:form class="ui search" id="txtinput">
+                            <h:inputText  id="search" value="#{searchBackingBean.searchFilterValue}" styleClass="prompt" required="true" pt:placeholder="#{msgs.search}"/>
+                            <h:selectOneRadio  id="radio" value="#{searchBackingBean.searchFilter}" required="true">
+                                <f:selectItem id="author" itemValue="author" itemLabel="#{msgs.author}"/>
+                                <f:selectItem itemValue="isbn" itemLabel="ISBN"/>
+                                <f:selectItem itemValue="publisher" itemLabel="#{msgs.publisher}"/>
+                                <f:selectItem itemValue="title" itemLabel="#{msgs.searchTitle}"/>
+                            </h:selectOneRadio>
+                            <h:commandButton action="genre?faces-redirect=true" styleClass="invisible">
+                                <f:actionListener binding="#{searchBackingBean.setSearched(true)}"/>
+                                <f:actionListener binding="#{genreBackingBean.setClicked(false)}"/>
+                            </h:commandButton>
+                        </h:form>
+                    </div>
+                    <div class="item">
+                        <i class="cart icon"/>
+                        <h:outputLink id = "checkout" value="checkout.xhtml"><span id="cartNumItems">#{cartBackingBean.getNumBooksInCart()}</span> items</h:outputLink>
+                    </div>
+                    <ui:include src="/template/userMenu.xhtml"/>
+                </div>
+            </div>
+    </ui:composition>
+</html>

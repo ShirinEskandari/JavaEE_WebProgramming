@@ -1,0 +1,84 @@
+.center{
+    text-align: center;
+}
+
+.violet{
+    color: RGB(141, 122, 205);
+}
+
+.darkViolet{
+    color: RGB(94, 68, 183);
+}
+
+.floatRight{
+    float:right;
+}
+
+.priceList{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.taxList{
+    font-weight: lighter;
+    font-size: 14px;
+}
+
+.darkbrown{
+    background-color: #6F4D3E;
+}
+
+.lightbrowntext{
+    color: #E9CDC1;
+}
+
+.purpleh{
+    background-color: #887493;
+}
+
+.insideheader{
+    background-color: #89919C;
+}
+
+.booktext {
+    color: #89919C;
+}
+
+.invisible{
+    display: none;
+    visibility: hidden;
+}
+
+.errorMsg{
+    color: red;
+}
+
+.radiobutton > tbody> tr  > td > label{
+    margin-right: 5vh;
+    margin-left: 1vh;
+}
+
+.rssTitle{
+    font-weight: bold;
+    text-align: center;
+}
+.rssStory{
+    text-align: center;
+}
+
+.errorMessage {
+    color:red;
+    font-weight: bold;
+}
+.surveyAnswers{
+    font-size: 16px;
+}
+
+.footerStyle{
+    position:absolute;
+    bottom:0px;
+}
+
+.fullHeight{
+    height: 100%;
+}

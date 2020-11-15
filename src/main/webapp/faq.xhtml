@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/template/layout.xhtml">
+        <ui:param name="pageTitle" value="#{msgs.faqTitle}"/>
+        <ui:define name="main_content">
+            <div class="ui segment">
+                <div class="ui segment">
+                    <div class="ui dividing blue header">
+                        #{msgs.FAQ}
+                    </div>
+                    <div class="ui list">
+                        <a class="item">
+                            <i class="help icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.q1}</div>
+                                <div class="description">#{msgs.a1}</div>
+                            </div>
+                        </a>
+                        <a class="item">
+                            <i class="help icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.q2}</div>
+                                <div class="description">#{msgs.a2}</div>
+                            </div>
+                        </a>
+                        <a class="item">
+                            <i class="help icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.q3}</div>
+                                <div class="description">#{msgs.a3}</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <div class="ui dividing blue header">
+                        #{msgs.generalInfo}
+                    </div>
+                    <div class="ui list">
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqHeaderHover}</div>
+                                <div class="description">
+                                    <ul>
+                                        <li class="header">#{msgs.faqGenre}</li>
+                                        <p>#{msgs.faqGenreText}</p>
+                                        <li class="header">#{msgs.faqLanguages}</li>
+                                        <p>#{msgs.faqLanguagesText}</p>
+                                        <li class="header">#{msgs.FAQ}</li>
+                                        <p>#{msgs.faqText}</p>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqSearchBar}</div>
+                                <div class="description">#{msgs.faqSearchBarText}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqCartIcon}</div>
+                                <div class="description">#{msgs.faqCartIconText}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqUserIcon}</div>
+                                <div class="description">
+                                    #{msgs.faqUserIconText}
+                                    <ul>
+                                        <li class="header">#{msgs.faqYourBooks}</li>
+                                        <p>#{msgs.faqYourBooksText}</p>
+                                        <li class="header">#{msgs.faqYourInvoices}</li>
+                                        <p>#{msgs.faqYourInvoicesText}</p>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <div class="ui dividing blue header">
+                        #{msgs.faqMainPage}
+                    </div>
+                    <div class="ui list">
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqDailyNews}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqRecentlyAdded}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqPrevSeen}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqOnSale}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqCommunity}</div>
+                                <div class="description">
+                                    <ul>
+                                        <li class="header">#{msgs.faqQuickSurvey}</li>
+                                        <p>#{msgs.faqQuickSurveyText}</p>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqSupportEaOther}</div>
+                                <div class="description">
+                                    <ul>
+                                        <li class="header">#{msgs.faqAds}</li>
+                                        <p>#{msgs.faqAdsText}</p>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <div class="ui dividing blue header">
+                        #{msgs.faqGenre}
+                    </div>
+                    <div class="ui list">
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqGenreText1}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqGenreText2}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqGenreText3}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqGenreText4}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <div class="ui dividing blue header">
+                        #{msgs.faqBooks}
+                    </div>
+                    <div class="ui list">
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqBooksBought}</div>
+                                <div class="description">
+                                    #{msgs.faqBooksBoughtText}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <div class="ui dividing blue header">
+                        #{msgs.faqInvoices}
+                    </div>
+                    <div class="ui list">
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqInvoicesText}</div>
+                                <div class="description">
+                                    <ul>
+                                        <li class="header">#{msgs.faqInvoicesList}</li>
+                                        <ul>
+                                            <li>#{msgs.faqInvoicesItem1}</li>
+                                            <li>#{msgs.faqInvoicesItem2}</li>
+                                            <li>#{msgs.faqInvoicesItem3}</li>
+                                        </ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <div class="ui dividing blue header">
+                        #{msgs.faqIndividualBooks}
+                    </div>
+                    <div class="ui list">
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqIndividualBooksItem1}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqIndividualBooksItem2}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="right triangle icon"/>
+                            <div class="content">
+                                <div class="header">#{msgs.faqIndividualBooksItem3}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      >
+    <ui:composition template="/template/layout.xhtml">
+        <ui:define name="main_content">  
+            <div class="ui raised segment">
+                <h4 class="ui dividing green header"> You are adding a new answer in current Survey </h4>
+
+                <h:form styleClass="ui form">
+                    <div class="field">
+                        <h:outputLabel>#{msgs.answerid}</h:outputLabel>
+                        <h:outputLabel value="#{managerAnswerBackingBean.answerID}"/>
+                    </div>
+                    <div class="field">
+                        <h:outputLabel>#{msgs.surveyid}</h:outputLabel>
+                        <h:outputLabel value="#{managerAnswerBackingBean.answerObj.serveyID.question}"/>
+                    </div>
+                    
+                    <div class="field">
+                        <h:outputLabel>#{msgs.answer}</h:outputLabel>
+                        <h:inputText id="answer" value="#{managerAnswerBackingBean.answer}"/>
+                    </div>
+                    
+                    <div class="field">
+                        <h:outputLabel> #{msgs.Vote} </h:outputLabel>
+                         <h:inputText id="vote" value="#{managerAnswerBackingBean.vote}"/> 
+                    </div>
+
+                    <h:commandButton styleClass="ui green button" type="button" value="Add New Answer" action="manager?faces-redirect=true">
+                        <f:ajax execute="@form" 
+                                event="click" 
+                                listener="#{managerAnswerBackingBean.addNewAnswer()}"
+                                />
+                    </h:commandButton>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

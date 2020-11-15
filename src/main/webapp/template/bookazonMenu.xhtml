@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!-- Author: Shirin & Grant-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <div class="ui simple dropdown icon item">
+        <i class="book icon" id="bookazondropdown"/>
+        <h:link outcome="index" value="Bookazon"/>
+        <div class="menu">
+            <div class="item">
+                <i class="dropdown icon" id="iconsdropdown"></i>
+                <span class="text" id = "cat">Categories</span>
+                <div class="menu" id="sci">
+                    <div class="item">
+                        <h:form>
+                            <h:commandButton styleClass="ui blue basic fluid button" action="genre?faces-redirect=true" value="#{msgs.science}">
+                                <f:actionListener binding="#{searchBackingBean.setSearched(false)}"/>
+                                <f:actionListener binding="#{genreBackingBean.setClicked(true)}"/>
+                                <f:actionListener binding="#{genreBackingBean.setSelectedGenre('science')}"/>
+                            </h:commandButton>
+                        </h:form>
+                    </div>
+                    <div class="item">
+                        <h:form>
+                            <h:commandButton styleClass="ui blue basic fluid button" action="genre?faces-redirect=true" value="#{msgs.children}">
+                                <f:actionListener binding="#{searchBackingBean.setSearched(false)}"/>
+                                <f:actionListener binding="#{genreBackingBean.setClicked(true)}"/>
+                                <f:actionListener binding="#{genreBackingBean.setSelectedGenre('children')}"/>
+                            </h:commandButton>
+                        </h:form>
+                    </div>
+                    <div class="item">
+                        <h:form>
+                            <h:commandButton styleClass="ui blue basic fluid button" action="genre?faces-redirect=true" value="#{msgs.cooking}">
+                                <f:actionListener binding="#{searchBackingBean.setSearched(false)}"/>
+                                <f:actionListener binding="#{genreBackingBean.setClicked(true)}"/>
+                                <f:actionListener binding="#{genreBackingBean.setSelectedGenre('cooking')}"/>
+                            </h:commandButton>
+                        </h:form>
+                    </div>
+                    <div class="item">
+                        <h:form>
+                            <h:commandButton styleClass="ui blue basic fluid button" action="genre?faces-redirect=true" value="#{msgs.fantasy}">
+                                <f:actionListener binding="#{searchBackingBean.setSearched(false)}"/>
+                                <f:actionListener binding="#{genreBackingBean.setClicked(true)}"/>
+                                <f:actionListener binding="#{genreBackingBean.setSelectedGenre('fantasy')}"/>
+                            </h:commandButton>
+                        </h:form>
+                    </div>
+                    <div class="item">
+                        <h:form>
+                            <h:commandButton styleClass="ui blue basic fluid button" action="genre?faces-redirect=true" value="#{msgs.mystery}">
+                                <f:actionListener binding="#{searchBackingBean.setSearched(false)}"/>
+                                <f:actionListener binding="#{genreBackingBean.setClicked(true)}"/>
+                                <f:actionListener binding="#{genreBackingBean.setSelectedGenre('mystery')}"/>
+                            </h:commandButton>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <span class="text" id="lang">Languages</span>
+                <div class="menu">
+                    <div class="item">
+                        <h:form>
+                            <h:commandLink value="English" action="#{language.setLocale('en')}" styleClass="ui blue basic fluid button" />
+                        </h:form>
+                    </div>
+                    <div class="item" id="french">
+                        <h:form>
+                            <h:commandLink value="French" action="#{language.setLocale('fr')}" styleClass="ui blue basic fluid button" />
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <h:link outcome="faq" value="FAQ"/>
+            </div>
+        </div>
+    </div>
+</html>

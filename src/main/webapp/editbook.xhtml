@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+@author Alex Bellerive
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      >
+    <ui:composition template="/template/layout.xhtml">
+        <ui:param name="pageTitle" value="#{msgs.editbook} : #{editBookBackingBean.editingBook.title}"/>
+        <ui:define name="main_content">  
+            <div class="ui raised segment">
+                <h:link styleClass="ui white button" type="button" value="#{msgs.returnToManager}" outcome="manager?faces-redirect=true"/>
+
+                <h4 class="ui dividing blue header">#{msgs.currentBookInfo}</h4>
+                <h:outputText styleClass="item" value ="ISBN : #{editBookBackingBean.editingBook.isbn}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.bookTitle} : #{editBookBackingBean.editingBook.title}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.publicationDate} : #{editBookBackingBean.editingBook.pubDate}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.genre} : #{editBookBackingBean.editingBook.genre}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.pages} : #{editBookBackingBean.editingBook.pages}"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.wholesalePrice}: #{editBookBackingBean.editingBook.wholeSalePrice}$"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.listPrice}: #{editBookBackingBean.editingBook.listPrice}$"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.salePrice}: #{editBookBackingBean.editingBook.salePrice}$"/>
+                <br/>
+                <h:outputText styleClass="item" value ="#{msgs.synop} : #{editBookBackingBean.editingBook.synopsis}"/>
+            </div>
+            <div class="ui raised segment">
+                <h4 class="ui dividing green header">#{msgs.modifyBook} </h4>
+
+                <h:form styleClass="ui form">
+                    <div class="field">
+                        <h:outputLabel>ISBN</h:outputLabel>
+                        <h:outputText value="#{editBookBackingBean.editingBook.isbn}"/>
+                    </div>
+
+                    <div class="two fields">
+                        <div class="field">
+                            <h:outputLabel>#{msgs.bookTitle}</h:outputLabel>
+                            <h:inputText id="title" pt:placeholder="#{editBookBackingBean.editingBook.title}" value="#{editBookBackingBean.title}">
+                                <f:validateLength maximum="150" />
+                            </h:inputText>
+                        </div>
+                        <div class="field">
+                            <h:message for="#{msgs.pages}" styleClass="errorMessage"/>
+                            <h:outputLabel>Pages</h:outputLabel>
+                            <h:inputText id="pages" pt:placeholder="#{editBookBackingBean.editingBook.pages}" value="#{editBookBackingBean.pages}"/>
+                        </div>
+                    </div>
+
+                    <div class="two fields">
+                        <div class="field">
+                            <h:outputLabel>#{msgs.genre}</h:outputLabel>
+                            <h:selectOneMenu id="bookGenre" value="#{editBookBackingBean.genre}"> 
+                                <f:selectItem itemValue = "default" itemLabel = "#{msgs.selectCategory}" />  
+                                <f:selectItem itemValue = "Science" itemLabel = "#{msgs.science}" />  
+                                <f:selectItem itemValue = "Children" itemLabel = "#{msgs.children}" />  
+                                <f:selectItem itemValue = "Cooking" itemLabel = "#{msgs.cooking}" />  
+                                <f:selectItem itemValue = "Fantasy" itemLabel = "#{msgs.fantasy}" />  
+                                <f:selectItem itemValue = "Mystery" itemLabel = "#{msgs.mystery}" />  
+                            </h:selectOneMenu>
+                        </div>
+
+                        <div class="field">
+                            <h:outputLabel>#{msgs.dateLabel}</h:outputLabel>
+                            <b:dateTimePicker format="YYYY/MM/DD" id ="bookPubDate" value = "#{editBookBackingBean.publicationDate}" max-date="#{editBookBackingBean.today}"/>  
+                        </div>
+                    </div>
+
+                    <div class="three fields"> 
+                        <div class="field">
+                            <h:outputLabel>#{msgs.wholesalePrice} </h:outputLabel>
+                            <h:inputText pt:placeholder="#{editBookBackingBean.editingBook.wholeSalePrice}" value="#{editBookBackingBean.wholeSalePrice}"/>
+                        </div>
+                        <div class="field">
+                            <h:outputLabel>#{msgs.listPrice}</h:outputLabel>
+                            <h:inputText pt:placeholder="#{editBookBackingBean.editingBook.listPrice}" value="#{editBookBackingBean.listPrice}"/>
+                        </div>
+                        <div class="field">
+                            <h:outputLabel>#{msgs.salePrice}</h:outputLabel>
+                            <h:inputText pt:placeholder="#{editBookBackingBean.editingBook.salePrice}" value="#{editBookBackingBean.salePrice}"/>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <h:outputLabel>#{msgs.synop}</h:outputLabel>
+                        <h:inputTextarea pt:placeholder="#{editBookBackingBean.editingBook.synopsis}" value="#{editBookBackingBean.synopsis}">
+                            <f:validateLength maximum="750" />
+                        </h:inputTextarea>
+                        <h:message for="bookSummary" styleClass="errorMessage"/>
+                    </div>
+
+                    <h:commandButton styleClass="ui green button" type="button" value="#{msgs.modifyBook}" action="editbook?faces-redirect=true">
+                        <f:ajax execute="@form" 
+                                event="click" 
+                                listener="#{editBookBackingBean.editBook()}"
+                                />
+                    </h:commandButton>
+                </h:form>
+            </div>
+
+        </ui:define>
+    </ui:composition>
+</html>

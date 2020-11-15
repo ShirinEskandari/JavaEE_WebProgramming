@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--Author: Shirin & Grant-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/template/layout.xhtml">
+        <ui:param name="pageTitle" value="#{msgs.registrationTitle}"/>
+        <ui:define name="main_content">  
+            <div class="ui segment"> 
+                <div class="ui grid">
+                    <div class="column">
+
+                        <h:form styleClass="ui form">
+                            <div class="ui dividing blue header"><h:outputText value="#{msgs.registrationPrompt}" /></div>
+                            <div class="fields">
+                                <div class="five wide required field">
+                                    <h:outputLabel for="email">#{msgs.email}</h:outputLabel>
+                                    <h:inputText id="email"  value="#{accountBackingBean.account.email}" pt:placeholder="#{msgs.email}">
+
+                                        <f:ajax event="blur" execute="@this" render="validation-messagesemail"/>   
+                                    </h:inputText>
+                                    <h:message for="email" id="validation-messagesemail" style="color:red"/>
+                                </div>
+                                <div class="five wide required field">
+                                    <h:outputLabel for="hashedPassword">#{msgs.password}</h:outputLabel>
+                                    <h:inputSecret id="hashedPassword" value="#{accountBackingBean.account.hashedPassword}" pt:placeholder="#{msgs.password}"
+                                                   >
+                                        <f:ajax event="blur" execute="@this" render="validation-messagespass"/>
+                                    </h:inputSecret>
+                                    <h:message for="hashedPassword" id="validation-messagespass" style="color:red"/>
+                                </div>
+
+                            </div>
+
+                            <div class="fields">
+                                <div class="five wide required field">
+                                    <h:outputLabel for="fname">#{msgs.fname}</h:outputLabel>
+                                    <h:inputText id="fname" value="#{accountBackingBean.account.FName}" pt:placeholder="#{msgs.fname}" 
+                                                 required="true"
+                                                 requiredMessage="#{msgs.nameMsg}">
+
+                                        <f:ajax event="blur"  execute="@this" render="validation-messagesfname"/>
+                                    </h:inputText>
+                                    <h:message for="fname" id="validation-messagesfname" style="color:red"/>
+                                </div>
+                                <div class="five wide required field">
+                                    <h:outputLabel for="lname">#{msgs.lname}</h:outputLabel>
+                                    <h:inputText id="lname"  value="#{accountBackingBean.account.LName}" pt:placeholder="#{msgs.lname}"
+                                                 required="true"
+                                                 requiredMessage="#{msgs.lnameMsg}">
+
+                                        <f:ajax event="blur"  execute="@this" render="validation-messageslname"/>
+                                    </h:inputText>
+                                    <h:message for="lname" id="validation-messageslname" style="color:red"/>
+                                </div>
+                            </div>
+
+                            <div class="fields">
+                                <div class="three wide required field">
+                                    <h:outputLabel for="address">#{msgs.address}</h:outputLabel>
+                                    <h:inputText id="address" value="#{accountBackingBean.account.address}" pt:placeholder="#{msgs.address}" 
+                                                 >
+
+                                        <f:ajax event="blur"  execute="@this" render="validation-messagesaddress1"/>
+                                    </h:inputText>
+                                    <h:message for="address" id="validation-messagesaddress1" style="color:red"/>
+                                </div>
+                                <div class="three wide required field">
+                                    <h:outputLabel for="street">#{msgs.street}</h:outputLabel>
+                                    <h:inputText id="street" value="#{accountBackingBean.account.street}" pt:placeholder="#{msgs.street}" >
+
+                                        <f:ajax event="blur"  execute="@this" render="validation-messagesaddress"/>
+                                    </h:inputText>
+                                    <h:message for="street" id="validation-messagesaddress" style="color:red"/>
+                                </div>
+                                <div class="two wide required field">
+                                    <h:outputLabel for="province">#{msgs.prov}</h:outputLabel>
+                                    <h:selectOneMenu value="#{accountBackingBean.account.province}"> 
+                                        <f:selectItem itemValue = "AB" itemLabel = "Alberta" /> 
+                                        <f:selectItem itemValue = "BC" itemLabel = "British Columbia" /> 
+                                        <f:selectItem itemValue = "MB" itemLabel = "Manitoba" />
+                                        <f:selectItem itemValue = "NB" itemLabel = "New Brunswick" /> 
+                                        <f:selectItem itemValue = "NL" itemLabel = "Newfoundland and Labrador" /> 
+                                        <f:selectItem itemValue = "NT" itemLabel = "Northwest Territories" />
+                                        <f:selectItem itemValue = "NS" itemLabel = "Nova Scotia" />     
+                                        <f:selectItem itemValue = "NU" itemLabel = "Nunavut" /> 
+                                        <f:selectItem itemValue = "ON" itemLabel = "Ontario" />                                 
+                                        <f:selectItem itemValue = "PE" itemLabel = "Prince Edward Island" />     
+                                        <f:selectItem itemValue = "QC" itemLabel = "Quebec" />     
+                                        <f:selectItem itemValue = "SK" itemLabel = "Saskatchewan" /> 
+                                        <f:selectItem itemValue = "YT" itemLabel = "Yukon" /> 
+                                    </h:selectOneMenu>  
+                                </div>
+                                <div class="two wide required field">
+                                    <h:outputLabel for="city">#{msgs.city}</h:outputLabel>
+                                    <h:inputText id="city" value="#{accountBackingBean.account.city}" pt:placeholder="#{msgs.city}" 
+                                                 >
+
+                                        <f:ajax event="blur"  execute="@this" render="validation-messagescity"/>
+                                    </h:inputText>
+                                    <h:message for="city" id="validation-messagescity" style="color:red"/>
+                                </div>
+                                <div class="two wide required field">
+                                    <h:outputLabel for="postalCode">#{msgs.postal}</h:outputLabel>
+                                    <h:inputText id="postalCode" value="#{accountBackingBean.account.postalCode}" pt:placeholder="#{msgs.postal}" >
+
+                                        <f:ajax event="blur"  execute="@this" render="validation-messagespostal"/>
+                                    </h:inputText>
+                                    <h:message for="postalCode" id="validation-messagespostal" style="color:red"/>
+                                </div>
+                            </div>
+
+                            <div class="fields">
+                                <div class="three wide required field">
+                                    <h:outputLabel for="tellNum">#{msgs.tellephone}</h:outputLabel>
+                                    <h:inputText id="telNum" value="#{accountBackingBean.account.telephone}" pt:placeholder="#{msgs.tellephone}" >
+
+                                        <f:ajax event="blur"  execute="@this" render="validation-messagesphonee"/>
+                                    </h:inputText>
+                                    <h:message for="telNum" id="validation-messagesphonee" style="color:red"/>
+                                </div>
+                                <div class="three wide field">
+                                    <h:outputLabel for="cellNum">#{msgs.cellphone}</h:outputLabel>
+                                    <h:inputText id="cellNum" value="#{accountBackingBean.account.cellphone}" pt:placeholder="#{msgs.cellphone}" 
+                                                 required="false">
+
+                                        <f:ajax event="blur"  execute="@this" render="validation-messagescell"/>
+                                    </h:inputText>
+                                    <h:message for="cellNum" id="validation-messagescell" style="color:red"/>
+                                </div>
+                                <div class="two wide field">
+                                    <h:outputLabel for="companyName">#{msgs.compName}</h:outputLabel>
+                                    <h:inputText id="companyName" value="#{accountBackingBean.account.companyName}" pt:placeholder="#{msgs.compName}" 
+                                                 required="false">
+
+                                        <f:ajax event="blur"  execute="@this" render="validation-messagescompany"/>
+                                    </h:inputText>
+                                    <h:message for="companyName" id="validation-messagescompany" style="color:red"/>
+                                </div>
+                            </div>
+
+                            <div class="inline fields">
+                                <div class="field">
+                                    <label>#{msgs.emp}</label>
+                                    <div class="field">
+                                        <h:selectOneRadio id="employeeStatus" value="#{accountBackingBean.account.managerStatus}">
+                                            <f:selectItem itemValue="1" itemLabel="#{msgs.yes}"/>
+                                            <f:selectItem itemValue="0" itemLabel="#{msgs.no}"/>
+                                            <f:ajax event="blur"  execute="@this" render="validation-messagesmanager"/>
+                                        </h:selectOneRadio>
+                                        <h:message for="employeeStatus" id="validation-messagesmanager" style="color:red"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <ui:fragment rendered="#{accountJpaController.findAccountByEmail(accountBackingBean.account.email) != null}">
+                                <h1><p><h:outputText id="output" value="#{msgs.tryagain}" style="color:red"/></p></h1>
+                            </ui:fragment>
+                            <h:commandButton styleClass="ui blue fluid button" id="save"  value="save" action="#{accountBackingBean.save()}"/>
+
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

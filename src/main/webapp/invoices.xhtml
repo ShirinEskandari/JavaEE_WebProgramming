@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--Author: Grant-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/mainLayout.xhtml">
+        <ui:param name="pageTitle" value="#{msgs.invoiceTitle}"/>
+        <ui:define name="main_content">
+            <div class="ui segment">
+                <div class="ui top attached huge blue label">#{msgs.youSpent} $#{bookJpaController.priceFormat(saleJpaController.getClientSales(loginBackingBean.account.accountID))} #{msgs.inTotal}</div>
+                <div class="ui three stackable cards">
+                    <ui:repeat value="#{saleJpaController.getAllInvoicesOfAccount(loginBackingBean.account.accountID)}" var="invoices">
+                        <div class="card">
+                            <h:form>
+                                <p:panel id="invoiceContent">
+                                    <div class="content">
+                                        <div class="header"><h2>#{msgs.invoice} ##{invoices.saleID}</h2></div>
+                                        <div class="sub header">#{invoices.saleDate} for Account ##{loginBackingBean.account.accountID}</div>
+                                        <h3>Books:</h3>
+                                        <ui:repeat value="#{saleJpaController.getInvoiceBooks(invoices.saleID)}" var="invoiceBooks">
+                                            <div class="description">
+                                                <span class="violet">
+                                                    #{invoiceBooks.title}
+                                                </span>
+                                                <h:outputText styleClass="darkViolet" value=" $#{bookJpaController.priceFormat(invoiceBooks.listPrice)}"/>
+                                            </div>
+                                        </ui:repeat>
+                                        <br/>
+                                        <div class="sub header">GST (#{taxBackingBean.GST}%)</div>
+                                        <div class="sub header">HST (#{taxBackingBean.HST}%)</div>
+                                        <div class="sub header">PST (#{taxBackingBean.PST}%)</div>
+                                        <h3><h:outputText value="Total with Tax: $#{bookJpaController.priceFormat(invoices.price)}"/></h3>
+                                    </div>
+                                </p:panel>
+                                <div class="extra content">
+                                    <div class="ui two buttons">
+                                        <p:commandButton styleClass="ui basic blue button" value="Print" type="button">
+                                            <p:printer target="invoiceContent" />
+                                        </p:commandButton>
+                                        <b:commandButton styleClass="ui basic blue button" value="Email">
+                                            <f:actionListener binding="#{mailBean.setSendTo(loginBackingBean.account.email)}"/>
+                                            <f:actionListener binding="#{mailBean.setSale(invoices)}"/>
+                                            <f:actionListener binding="#{mailBean.setInvoiceBooks(saleJpaController.getInvoiceBooks(invoices.saleID))}"/>
+                                            <f:actionListener binding="#{mailSender.sendEmail()}"/>
+                                        </b:commandButton>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

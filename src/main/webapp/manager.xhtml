@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+Authors: Alex,Grant,Lin 
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    <ui:composition template="/template/layout.xhtml">
+        <ui:param name="pageTitle" value="#{msgs.managerTitle}"/>
+        <ui:define name="main_content"> 
+               <!--Start Author: Shirin -->
+            <ui:fragment rendered="#{!loginBackingBean.signedIn}">
+                <div class="ui center aligned header">
+
+                    <p>  #{msgs.havetosignin}</p>
+
+                </div>
+            </ui:fragment>
+            <ui:fragment rendered="#{loginBackingBean.signedIn}">
+                <ui:fragment rendered="#{!loginBackingBean.manager}">
+                    <div class="ui center aligned header">
+
+                        <p>  #{msgs.sorry}</p>
+
+                    </div>
+                </ui:fragment>
+                <ui:fragment rendered="#{loginBackingBean.manager}">
+                     <!--End Author: Shirin -->
+
+            <div class="ui segment">
+                <div class="ui one column grid">
+                    <div class="sixteen wide column">
+                        <div class="ui seven item menu">
+                            <h:commandLink  styleClass="item" value ="#{msgs.activeInventory}" >
+                                <f:ajax event="click" 
+                                        listener ="#{managerViewBackingBean.viewActivatedInventory}"
+                                        render="@all"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="item" value ="#{msgs.deactivatedInventory}">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewDeactivatedInventory}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="item" value ="#{msgs.addBook}" >
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewAddBook}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="item" value="#{msgs.clients}">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewClients}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="item" value="#{msgs.reviews}">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewReviews}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="item" value="#{msgs.rssManagement}">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewRss}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="item" value="#{msgs.zeroSales}">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewZeroSales}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                        </div>
+                        <div class="ui seven item menu">
+                            <h:commandLink styleClass="item" value="#{msgs.ads}">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewAds}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="item" value="#{msgs.topClients}">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewTopClients}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="item" value="#{msgs.topSellers}">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewTopSales}"
+                                        render ="@all"/>
+                            </h:commandLink>
+
+                            <h:commandLink styleClass="item" value="#{msgs.salesByPub}">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewSalesByPublisher}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="item" value="Surveys">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewSurveys}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="item" value="Answers">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewAnswers}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="item" value="Order">
+                                <f:ajax event="click" 
+                                        listener="#{managerViewBackingBean.viewOrder}"
+                                        render ="@all"/>
+                            </h:commandLink>
+                        </div>
+
+                        <ui:fragment id ="activatedInventory" rendered="#{managerViewBackingBean.activatedInventory}">
+                            <h4 class="ui dividing blue header">#{msgs.activeInventory}</h4>
+                            <h:form styleClass="ui form">
+                                <b:dataTable style="width:100%" value="#{bookJpaController.findAllBooks('0')}" var="books">
+                                    <b:dataTableColumn value="#{books.isbn}"/>
+                                    <b:dataTableColumn label="#{msgs.bookTitle}" value="#{books.title}"/>
+                                    <b:dataTableColumn label="#{msgs.pages}" value="#{books.pages}" />
+                                    <b:dataTableColumn label="#{msgs.genre}" value="#{books.genre}"/>
+                                    <b:dataTableColumn label="#{msgs.listPrice}" value="#{books.listPrice}" />
+                                    <b:dataTableColumn label="#{msgs.salePrice}" value="#{books.salePrice}" />
+                                    <b:dataTableColumn label="#{msgs.synop}" value="#{books.synopsis}"/>
+                                    <b:dataTableColumn label="#{msgs.edit}">
+                                        <b:commandButton value="#{msgs.edit}" icon="edit" action="editbook?faces-redirect=true">
+                                            <f:actionListener binding="#{editBookBackingBean.setEditingBook(books)}"/>
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msgs.deactivate}">
+                                        <b:commandButton value="#{msgs.deactivate}" icon="trash">
+                                            <f:ajax render="@form" 
+                                                    event="click" 
+                                                    listener="#{managerBookBackingBean.toggleBook(books,'1')}"/>
+                                            <!-- Deactivation works, but the visual results only show once the page is reloaded-->
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </h:form>
+                        </ui:fragment> 
+
+                        <ui:fragment id ="deactivatedInventory" rendered="#{managerViewBackingBean.deactivatedInventory}">
+                            <h4 class="ui dividing blue header">#{msgs.deactivatedInventory}</h4>
+                            <h:form styleClass="ui form">
+                                <b:dataTable style="width:100%" value="#{bookJpaController.findAllBooks('1')}" var="books">
+                                    <b:dataTableColumn value="#{books.isbn}"/>
+                                    <b:dataTableColumn label="#{msgs.bookTitle}" value="#{books.title}"/>
+                                    <b:dataTableColumn label="#{msgs.pages}" value="#{books.pages}" />
+                                    <b:dataTableColumn label="#{msgs.genre}" value="#{books.genre}"/>
+                                    <b:dataTableColumn label="#{msgs.listPrice}" value="#{books.listPrice}"/>
+                                    <b:dataTableColumn label="#{msgs.salePrice}" value="#{books.salePrice}"/>
+                                    <b:dataTableColumn label="#{msgs.synop}" value="#{books.synopsis}"/>
+                                    <b:dataTableColumn label="#{msgs.activate}">
+                                        <b:commandButton value="#{msgs.activate}" icon="book">
+                                            <f:ajax render="@form" 
+                                                    event="click" 
+                                                    listener="#{managerBookBackingBean.toggleBook(books,'0')}"/>
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </h:form>
+                        </ui:fragment> 
+
+                        <ui:fragment id= "addBook" rendered ="#{managerViewBackingBean.addBook}">
+                            <h4 class="ui dividing blue header">#{msgs.addBook}</h4>
+                            <h:form styleClass="ui form">
+                                <h:outputLabel>#{managerBookBackingBean.uploadStatus}</h:outputLabel> <br/> 
+                                <b:inputText label="ISBN" id="bookisbn" pt:placeholder="ISBN" required="true" value="#{managerBookBackingBean.isbn}">
+                                    <f:validateLength minimum="14" maximum='14'/>
+                                </b:inputText>
+                                <h:message for="bookisbn" styleClass="errorMessage"/>
+                                <b:inputText label="#{msgs.bookTitle}" id="bookTitle" pt:placeholder="#{msgs.bookTitle}" required="true" value="#{managerBookBackingBean.title}">
+                                    <f:validateLength maximum="150" />
+                                </b:inputText>
+                                <h:message for="Pages" styleClass="errorMessage"/>
+                                <b:inputText label="#{msgs.pages}" id="bookPages" pt:placeholder="#{msgs.numOfPages}" required="true" value="#{managerBookBackingBean.pages}">
+                                    <f:convertNumber minFractionDigits="0" /> 
+                                    <f:validateDoubleRange minimum="1" />
+                                </b:inputText>
+                                <b:inputText label="#{msgs.publisher}" id="bookPublisher" pt:placeholder="#{msgs.publisher}" required="true" value="#{managerBookBackingBean.publisher}"/> 
+                                <h:outputLabel>#{msgs.author}</h:outputLabel> <br/> 
+                                <b:inputText id="fname" pt:placeholder="#{msgs.fname}" required="true" value="#{managerBookBackingBean.firstName}"/>
+                                <b:inputText id="lname" pt:placeholder="#{msgs.lname}" required="true" value="#{managerBookBackingBean.lastName}"/> 
+                                <h:outputLabel for="bookGenre">#{msgs.genre}</h:outputLabel> <br/> 
+                                <h:selectOneMenu id="bookGenre" value="#{managerBookBackingBean.genre}"> 
+                                    <f:selectItem itemValue = "Science" itemLabel = "#{msgs.science}" />  
+                                    <f:selectItem itemValue = "Children" itemLabel = "#{msgs.children}" />  
+                                    <f:selectItem itemValue = "Cooking" itemLabel = "#{msgs.cooking}" />  
+                                    <f:selectItem itemValue = "Fantasy" itemLabel = "#{msgs.fantasy}" />  
+                                    <f:selectItem itemValue = "Mystery" itemLabel = "#{msgs.mystery}" />  
+                                </h:selectOneMenu>
+                                <br/> 
+                                <b:dateTimePicker format="YYYY/MM/DD" label = "#{msgs.publicationDate}" id ="bookPubDate" required="true" value = "#{managerBookBackingBean.publicationDate}" max-date="#{managerBookBackingBean.today}"/>  
+                                <h:message for="bookWholesalePrice" styleClass="errorMessage"/>
+                                <b:inputText label="#{msgs.wholesalePrice}" id="bookWholesalePrice" pt:placeholder="#{msgs.wholesalePrice}" required="true" value="#{managerBookBackingBean.wholeSalePrice}">
+                                    <f:convertNumber currencySymbol="$" type="currency" /> 
+                                    <f:validateDoubleRange minimum="1.0" />
+                                </b:inputText>    
+                                <h:message for="bookListPrice" styleClass="errorMessage"/>
+                                <b:inputText label= "#{msgs.listPrice}" id="bookListPrice" pt:placeholder="#{msgs.listPrice}" required="true" value="#{managerBookBackingBean.listPrice}">
+                                    <f:convertNumber currencySymbol="$" type="currency" /> 
+                                    <f:validateDoubleRange minimum="1.0"/>
+                                </b:inputText> 
+                                <h:message for="bookSalePrice" styleClass="errorMessage"/>
+
+                                <b:inputText label="#{msgs.salePrice}" id="bookSalePrice" pt:placeholder="#{msgs.salePrice}" required="true" value="#{managerBookBackingBean.salePrice}">
+                                    <f:convertNumber currencySymbol="$" type="currency" /> 
+                                    <f:validateDoubleRange minimum="0.0"/>
+                                </b:inputText> 
+                                <h:outputLabel>#{msgs.synop}</h:outputLabel> <br/> 
+                                <h:inputTextarea id="bookSummary" pt:placeholder="#{msgs.synop}" required="true" value="#{managerBookBackingBean.synopsis}" > 
+                                    <f:validateLength maximum="750" />
+                                </h:inputTextarea>    
+                                <h:message for="bookSummary" styleClass="errorMessage"/>
+                                <br/> 
+                                <b:commandButton value = "#{msgs.addToDb}" action="#{managerBookBackingBean.createBook()}"/>
+                            </h:form>
+                        </ui:fragment>
+
+                        <ui:fragment id ="reviews" rendered="#{managerViewBackingBean.reviews}">
+                            <h4 class="ui dividing blue header">#{msgs.reviews}</h4>
+                            <h:form styleClass="ui form">
+                                <b:dataTable style="width:100%" value="#{reviewJpaController.findReviewEntitiesNeedManage()}" var="reviewList">
+                                    <b:dataTableColumn label="#{msgs.reviewId}">
+                                        <h:outputText id="reviewID" value="#{reviewList.reviewID}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="ISBN" >
+                                        <h:outputText id="reviewISBN" value="#{reviewList.isbn.isbn}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msgs.account}" >
+                                        <h:outputText id="reviewAccountID" value="#{reviewList.accountID.accountID}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msgs.text}" >
+                                        <h:outputText id="reviewText" value="#{reviewList.reviewText}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msgs.rating}" >
+                                        <h:outputText id="reviewRating" value="#{reviewList.rating}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msgs.date}" >
+                                        <h:outputText id="reviewPostDate" value="#{reviewList.postDate}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msgs.publish}">
+                                        <b:commandButton value="#{msgs.publish}" icon="save">
+                                            <f:ajax render="@form" 
+                                                    event="click" 
+                                                    listener="#{reviewJpaController.updateReviewApproval(reviewList)}"/>
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn>
+                                        <b:commandButton value="#{msgs.delete}" 
+                                                         iconAwesome="trash"
+                                                         action="#{ReviewJpaController.destroy(reviewList)}">
+                                            <f:ajax execute="@this" render="@form" />
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </h:form>
+                        </ui:fragment>
+
+                        <ui:fragment id ="rss" rendered="#{managerViewBackingBean.rss}">
+                            <h4 class="ui dividing blue header">#{msgs.rssManagement}</h4>
+                            <h:form styleClass="ui form">
+                                <b:dataTable style="width:100%" value="#{rssJpaController.findRssEntities()}" var="rss">
+                                    <b:dataTableColumn value="#{rss.rssID}"/>
+                                    <b:dataTableColumn value="#{rss.link}"/>
+                                    <b:dataTableColumn label="#{msgs.status}">
+                                        <b:commandButton value ="#{rssBackingBean.label}" 
+                                                         disabled="#{rssBackingBean.statusTranslation(rss.active)}">
+                                            <f:ajax render="@form" 
+                                                    event="click" 
+                                                    listener="#{rssBackingBean.activateLink(rss.rssID)}"/>
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </h:form>
+                            <h4 class="ui dividing blue header">#{msgs.addRss}</h4>
+                            <h:form>
+                                <b:inputText label="#{msgs.newLink}" value ="#{rssBackingBean.newLink}" required="true">
+                                    <f:validateLength minimum="1"/>
+                                </b:inputText>
+                                <b:commandButton value = "#{msgs.addToDb}">
+                                    <f:ajax execute="@form" 
+                                            listener="#{rssBackingBean.createRSS()}"/>
+                                </b:commandButton>
+                            </h:form>
+                        </ui:fragment>    
+
+                        <ui:fragment id ="zeroSales" rendered="#{managerViewBackingBean.zeroSales}">
+                            <h4 class="ui dividing blue header">#{msgs.zeroSales}</h4>
+                            <h:form styleClass="ui form">
+                                <div class="ui segment">
+                                    <div class="fields">
+                                        <div class="six wide field">
+                                            <b:dateTimePicker format="YYYY/MM/DD" label="#{msgs.startDate}" required="true" value="#{dateRange.startRange}"/>
+                                        </div>
+                                        <div class="six wide field">
+                                            <b:dateTimePicker format="YYYY/MM/DD" label="#{msgs.endDate}" required="true" value="#{dateRange.endRange}"/>
+                                        </div>
+                                        <div class="four wide field">
+                                            <h:outputLabel>#{msgs.submit}</h:outputLabel>
+                                            <b:commandButton value="#{msgs.refresh}" action="manager?faces-redirect=true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <b:dataTable style="width:100%" value="#{booksaleJpaController.zeroSales(dateRange.startRange, dateRange.endRange)}" var="bookszerosale">
+                                    <b:dataTableColumn value="#{bookszerosale.isbn}"/>
+                                    <b:dataTableColumn label="#{msgs.bookTitle}" value="#{bookszerosale.title}"/>
+                                    <b:dataTableColumn label="#{msgs.pages}" value="#{bookszerosale.pages}" />
+                                    <b:dataTableColumn label="#{msgs.genre}" value="#{bookszerosale.genre}"/>
+                                    <b:dataTableColumn label="#{msgs.listPrice}" value="#{bookszerosale.listPrice}"/>
+                                    <b:dataTableColumn label="#{msgs.salePrice}" value="#{bookszerosale.salePrice}"/>
+                                    <b:dataTableColumn label="#{msgs.synop}" value="#{bookszerosale.synopsis}"/>
+                                </b:dataTable>
+                            </h:form>
+                        </ui:fragment>
+
+                        <ui:fragment id="ads" rendered="#{managerViewBackingBean.ads}">
+                            <div class="ui segment">
+                                <h:form styleClass="ui form">
+                                    <b:dataTable style="width:100%" value="#{adsJpaController.findAdsEntities()}" var="ads">
+                                        <b:dataTableColumn value="#{ads.adID}"/>
+                                        <b:dataTableColumn value="#{ads.redirect}"/>
+                                        <b:dataTableColumn value="#{ads.image}"/>
+                                        <b:dataTableColumn value="#{ads.adType}"/>
+                                        <b:dataTableColumn value="#{ads.activeStatus}"/>
+
+                                        <b:dataTableColumn>
+                                            <b:commandButton action="#{adsJpaController.activate(ads)}" value="#{msgs.activate}"/>
+                                        </b:dataTableColumn>
+                                        <b:dataTableColumn>
+                                            <b:commandButton action="#{adsJpaController.destroy(ads.adID)}" value="#{msgs.delete}"/>
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                </h:form>
+                            </div>
+                            <div class="ui segment">
+                                <h:form styleClass="ui form">
+                                    <div class="fields">
+                                        <div class="four wide required field">
+                                            <h:outputLabel>#{msgs.adSelection}</h:outputLabel>
+                                            <h:inputText id="adType" required="true" value="#{adsBackingBean.adType}" pt:placeholder="1"/> 
+                                        </div>
+                                        <div class="four wide required field">
+                                            <h:outputLabel>#{msgs.adImage}</h:outputLabel>
+                                            <h:inputText id="adImage" required="true" value="#{adsBackingBean.adImage}" pt:placeholder="JavaAd.png"/> 
+                                        </div>
+                                        <div class="eight wide required field">
+                                            <h:outputLabel>#{msgs.adRedirect}</h:outputLabel>
+                                            <h:inputText id="adRedirect" required="true" value="#{adsBackingBean.adRedirect}" pt:placeholder="https://www.java.com/"/> 
+                                        </div>
+                                        <div class="field">
+                                            <h:outputLabel>#{msgs.createAd}</h:outputLabel>
+                                            <b:commandButton action="#{adsBackingBean.createAd()}" value="#{msgs.add}"/>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </ui:fragment>    
+
+                        <ui:fragment id ="clients" rendered="#{managerViewBackingBean.clients}">
+                            <h4 class="ui dividing blue header">#{msgs.clients}</h4>
+                            <h:form styleClass="ui form">
+                                <b:dataTable style="width:100%" value="#{accountJpaController.findAccountEntities()}" var="client">
+                                    <b:dataTableColumn value="#{client.email}"/>
+                                    <b:dataTableColumn value="#{client.FName}"/>
+                                    <b:dataTableColumn value="#{client.LName}"/>
+                                    <b:dataTableColumn value="#{client.address}"/>
+                                    <b:dataTableColumn value="#{client.street}"/>
+                                    <b:dataTableColumn value="#{client.province}"/>
+                                    <b:dataTableColumn value="#{client.postalCode}"/>
+                                    <b:dataTableColumn value="#{client.city}"/>
+                                    <b:dataTableColumn value="#{client.telephone}"/>
+                                    <b:dataTableColumn value="#{client.cellphone}"/>
+                                    <b:dataTableColumn value="#{client.companyName}"/>
+                                    <b:dataTableColumn value="#{client.managerStatus}"/>
+                                    <b:dataTableColumn label="#{msgs.totalPurchases}" value="#{saleJpaController.getClientSales(client.accountID)}"/>
+
+                                    <b:dataTableColumn label="#{msgs.edit}">
+                                        <b:commandButton value="#{msgs.edit}" icon="edit" action="edituser?faces-redirect=true">
+                                            <f:actionListener binding="#{editUserBackingBean.setAccount(client)}"/>
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </h:form>
+                        </ui:fragment> 
+
+                        <ui:fragment id ="topClient" rendered="#{managerViewBackingBean.topClients}">
+                            <h4 class="ui dividing blue header">#{msgs.topClients}</h4>
+                            <h:form styleClass="ui form">
+                                <div class="ui segment">
+                                    <div class="fields">
+                                        <div class="six wide field">
+                                            <b:dateTimePicker format="YYYY/MM/DD" label="#{msgs.startDate}" required="true" value="#{dateRange.startRange}"/>
+                                        </div>
+                                        <div class="six wide field">
+                                            <b:dateTimePicker format="YYYY/MM/DD" label="#{msgs.endDate}" required="true" value="#{dateRange.endRange}"/>
+                                        </div>
+                                        <div class="four wide field">
+                                            <h:outputLabel>#{msgs.submit}</h:outputLabel>
+                                            <b:commandButton value="#{msgs.refresh}" action="manager?faces-redirect=true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <b:dataTable style="width:100%" value="#{saleJpaController.topSales(dateRange.startRange, dateRange.endRange)}" var="clientsWhoBought">
+                                    <b:dataTableColumn value="#{clientsWhoBought.FName}"/>
+                                    <b:dataTableColumn label="#{msgs.totalPurchases}" value="#{saleJpaController.getClientSales(clientsWhoBought.accountID)}" order="desc"/>
+                                </b:dataTable>
+
+                            </h:form>
+                        </ui:fragment>
+
+                        <ui:fragment id ="topSellers" rendered="#{managerViewBackingBean.topSellers}">
+                            <h4 class="ui dividing blue header">#{msgs.topSellers}</h4>
+                            <h:form styleClass="ui form">
+                                <div class="ui segment">
+                                    <div class="fields">
+                                        <div class="six wide field">
+                                            <b:dateTimePicker format="YYYY/MM/DD" label="#{msgs.startDate}" required="true" value="#{dateRange.startRange}"/>
+                                        </div>
+                                        <div class="six wide field">
+                                            <b:dateTimePicker format="YYYY/MM/DD" label="#{msgs.endDate}" required="true" value="#{dateRange.endRange}"/>
+                                        </div>
+                                        <div class="four wide field">
+                                            <h:outputLabel>#{msgs.submit}</h:outputLabel>
+                                            <b:commandButton value="#{msgs.refresh}" action="manager?faces-redirect=true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <b:dataTable style="width:100%" value="#{booksaleJpaController.booksSold(dateRange.startRange, dateRange.endRange)}" var="booksSold">
+                                    <b:dataTableColumn value="#{booksSold.isbn.title}"/>
+                                    <b:dataTableColumn value="#{booksSold.isbn.isbn}"/>
+                                    <b:dataTableColumn label="#{msgs.totalPurchases}" value="#{booksaleJpaController.getBookSales(booksSold.isbn.isbn)}" order="desc"/>
+
+                                </b:dataTable>
+                            </h:form>
+                        </ui:fragment>
+
+                        <ui:fragment id ="salesByPubliser" rendered="#{managerViewBackingBean.salesByPubliser}">
+                            <h4 class="ui dividing blue header">#{msgs.salesByPub} </h4>
+                            <h:form styleClass="ui form">
+                                <div class="ui segment">
+                                    <div class="fields">
+                                        <div class="six wide field">
+                                            <b:dateTimePicker format="YYYY/MM/DD" label="#{msgs.startDate}" required="true" value="#{dateRange.startRange}"/>
+                                        </div>
+                                        <div class="six wide field">
+                                            <b:dateTimePicker format="YYYY/MM/DD" label="#{msgs.endDate}" required="true" value="#{dateRange.endRange}"/>
+                                        </div>
+                                        <div class="four wide field">
+                                            <h:outputLabel>Submit</h:outputLabel>
+                                            <b:commandButton value="#{msgs.refresh}" action="manager?faces-redirect=true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <b:dataTable style="width:100%" value="#{booksaleJpaController.booksSoldPerPublisher(dateRange.startRange, dateRange.endRange)}" var="booksSold">
+                                    <b:dataTableColumn value="#{booksSold.isbn.title}"/>
+                                    <b:dataTableColumn label ="#{msgs.itemsSold}" value="#{booksaleJpaController.getPublisherCount(booksSold.isbn.publisherID.name)}" order="desc"/>
+                                </b:dataTable>
+                            </h:form>
+                        </ui:fragment>
+
+                                                <ui:fragment id="surveys" rendered="#{managerViewBackingBean.surveys}">
+                            <h4 class="ui dividing blue header">#{msgs.managerSurvey}</h4>                           
+                            <h:form styleClass="ui form">
+                                <b:dataTable value="#{managerSurveyBackingBean.surveyList}" style="width:100%" var="survey">
+                                    <b:dataTableColumn value="#{survey.serveyID}" />
+                                    <b:dataTableColumn value="#{survey.question}"/>
+                                    <b:dataTableColumn label="#{msgs.edit}">
+                                        <b:commandButton value="#{msgs.edit}" icon="edit" action="editSurvey?faces-redirect=true">
+                                            <f:actionListener binding="#{managerSurveyBackingBean.setNewSurvey(survey)}"/>
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msgs.add}">
+                                        <b:commandButton value="#{msgs.add}" icon="add" action="addNewSurvey?faces-redirect=true">
+                                            <f:actionListener binding="#{managerSurveyBackingBean.setNewSurvey(survey)}"/>
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+
+                                </b:dataTable>
+                            </h:form>
+                        </ui:fragment>
+
+                        <ui:fragment id="Answers" rendered="#{managerViewBackingBean.answers}">
+                            <h4 class="ui dividing blue header">#{msgs.managerAnswer}</h4>                           
+                            <h:form styleClass="ui form">
+                                <b:dataTable style="width:100%" value="#{answerJpaController.findAnswerEntities()}" var="answer">
+                                    <b:dataTableColumn value="#{answer.answerID}" />
+                                    <b:dataTableColumn value="#{answer.serveyID.question}"/>
+                                    <b:dataTableColumn value="#{answer.answer}"/>
+                                    <b:dataTableColumn value="#{answer.vote}"/>
+                                    <b:dataTableColumn label="#{msgs.edit}">
+                                        <b:commandButton value="#{msgs.edit}" icon="edit" action="editAnswer?faces-redirect=true">
+                                            <f:actionListener binding="#{managerAnswerBackingBean.setAnswerObj(answer)}"/>
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msgs.add}">
+                                        <b:commandButton value="#{msgs.add}" icon="add" action="addNewAnswer?faces-redirect=true">
+                                            <f:actionListener binding="#{managerAnswerBackingBean.setAnswerObj(answer)}"/>
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </h:form>
+                        </ui:fragment> 
+
+
+                        <ui:fragment id="order" rendered="#{managerViewBackingBean.order}">
+                            <h4 class="ui dividing blue header"> #{msgs.order} </h4> 
+                            <h:form styleClass="ui form">
+                                <b:dataTable style="width:100%" value="#{managerOrderBackingBean.orderList}" var="orders">
+                                    <b:dataTableColumn value="#{orders.saleID}" />
+                                    <b:dataTableColumn value="#{orders.isbn}"/>
+                                    <b:dataTableColumn value="#{orders.title}"/>
+                                    <b:dataTableColumn value="#{orders.accountID.accountID}"/>
+                                    <b:dataTableColumn value="#{orders.accountID.email}"/>
+                                    <b:dataTableColumn label="#{msgs.edit}">
+                                        <b:commandButton value="#{msgs.edit}" icon="edit" action="editOrder?faces-redirect=true">
+                                            <f:actionListener binding="#{managerOrderBackingBean.editMobb(orders)}"/>
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                                
+                            </h:form>
+                        </ui:fragment>
+                    </div>
+                </div>
+            </div>
+                </ui:fragment>
+            </ui:fragment>
+
+        </ui:define>
+    </ui:composition>
+</html>

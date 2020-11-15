@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--Author: Grant -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/mainLayout.xhtml">
+        <ui:param name="pageTitle" value="#{msgs.clientTitle}"/>
+        <ui:define name="main_content">
+            <div class="ui segment">
+                <div class="ui top attached huge blue label">#{msgs.yourBooks}</div>
+                <div class="ui five stackable cards">
+                    <ui:fragment rendered="#{loginBackingBean.signedIn}">
+                        <ui:repeat value="#{bookJpaController.getBoughtBooks(loginBackingBean.account.accountID)}" var="bought">      
+                            <div class="card ">
+                                <h:graphicImage styleClass="ui centered large image" library="images" name="#{bought.imagePath}" />
+                                <div class="content">
+                                    <h:outputText styleClass="header" value="#{bought.title}"/>
+                                    <div class="description">
+                                        <h:outputText styleClass="description" value="#{bookJpaController.displayReadMore(bought.synopsis)}"/>
+                                    </div>
+                                </div>
+                                <div class="extra content">
+                                    <h:form>
+                                        <h:commandButton styleClass="ui blue basic fluid button" value="View Book" onclick="$('.#{bought.bookID}B').modal();" pt:data-toggle="modal">
+                                            <f:ajax render="@none" event="click" onevent="lastClickedGenre('#{bought.genre}')"/>
+                                        </h:commandButton>
+                                    </h:form>
+                                </div>
+                            </div>
+                            <b:modal title="#{bought.title}" styleClass="#{bought.bookID}B">
+                                <div class="content">
+                                    <div class="ui grid">
+                                        <div class="eight wide column">
+                                            <h:graphicImage id="modalImage" styleClass="ui medium image" library="images" name="#{bought.imagePath}"/>
+                                            <div class="ui section divider"></div>
+                                        </div>  
+                                        <div class="eight wide column">
+                                            <div class="ui segment">
+                                                <div class="description">
+                                                    <h:outputText styleClass="ui red tag label" value="$#{bookJpaController.priceFormat(bought.listPrice)}"/>
+                                                    <div class="ui list">
+                                                        <h:outputText styleClass="item" value="Author - #{authorJpaController.getAuthorName(bookJpaController.getAuthorIDFromBook(bought.isbn))}"/>
+                                                        <h:outputText styleClass="item" value="ISBN - #{bought.isbn}"/>
+                                                        <h:outputText styleClass="item" value="Publisher - #{bought.publisherID.name}"/>
+                                                        <h:outputText styleClass="item" value="Published - #{bought.pubDate}"/>
+                                                        <h:outputText styleClass="item" value="Pages - #{bought.pages}"/>
+                                                    </div>
+                                                    <h:outputText value="#{bought.synopsis}"/>
+                                                    <f:facet name="footer">
+                                                        <div class="actions">
+                                                            <h:form>
+                                                                <p:commandButton styleClass="ui positive right labeled icon fluid button" ajax="false" value="#{msgs.download}">
+                                                                    <p:fileDownload value="#{fileBackingBean.file}"/>
+                                                                </p:commandButton>
+                                                            </h:form>
+                                                        </div>
+                                                    </f:facet>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </b:modal>
+                        </ui:repeat>
+                    </ui:fragment>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
